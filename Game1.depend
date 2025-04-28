@@ -556,11 +556,13 @@
 1745394970 c:\users\adam\coding stuff\c programs\game1\include\tilemap.h
 	<SDL2/SDL.h>
 
-1745396603 source:c:\users\adam\source\repos\game1\main.c
+1745559452 source:c:\users\adam\source\repos\game1\main.c
 	<SDL2/SDL.h>
 	<SDL_mixer.h>
+	<SDL2/SDL_ttf.h>
 	<stdio.h>
 	<stdlib.h>
+	<time.h>
 	"globals.h"
 	"sdl_init.h"
 	"graphics.h"
@@ -571,6 +573,7 @@
 	"gamepad.h"
 	"tilemap.h"
 	"player.h"
+	"text.h"
 
 1745394686 c:\users\adam\source\repos\game1\include\globals.h
 	<SDL2/SDL.h>
@@ -655,4 +658,17 @@
 1745395019 source:c:\users\adam\source\repos\game1\src\tilemap.c
 	"tilemap.h"
 	<stdlib.h>
+
+1745554075 source:c:\users\adam\source\repos\game1\src\text.c
+	"text.h"
+	<stdio.h>
+
+1745554922 c:\users\adam\source\repos\game1\include\text.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
+
+1735857988 c:\users\adam\documents\libraries\sdl2_ttf-2.24.0\x86_64-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 

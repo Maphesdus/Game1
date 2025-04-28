@@ -1,7 +1,10 @@
-#include <SDL2/SDL.h>
-#include <SDL_mixer.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <SDL2/SDL.h>       // Simple DirectMedia Layer Graphics Library (needed for rendering graphics in a window)
+#include <SDL_mixer.h>      // Simple DirectMedia Layer Sound Library (needed for playing audio files for music and sound effects)
+#include <SDL2/SDL_ttf.h>   // Simple DirectMedia Layer TrueType Fonts Library (needed for displaying text in the graphics window)
+
+#include <stdio.h>  // Standard Input/Output
+#include <stdlib.h> // Standard Library
+#include <time.h>   // Needed to generate random numbers
 
 #include "globals.h"
 #include "sdl_init.h"
@@ -13,7 +16,7 @@
 #include "gamepad.h"
 #include "tilemap.h"
 #include "player.h"
-
+#include "text.h"
 
 //int DAT_loader(); // Forward declaration: This tells the compiler that DAT_loader() exists somewhere else.
 
@@ -39,6 +42,11 @@ int WinMain(int argc, char* argv[]) {
     // Initialize the Audio:
     //if (initAudio() != 0) return 1;
 
+    // Initialize Text:
+    //if (initTextSystem("assets/fonts/arial/Arial.ttf", 28) != 0) return 1;
+    //if (initTextSystem("assets/fonts/Qager-zrlmw.ttf", 12) != 0) return 1;
+    if (initTextSystem("assets/fonts/PressStart2P-vaV7.ttf", 12) != 0) return 1;
+
     // Initialize the Gamepad:
     initGamepad();
 
@@ -47,7 +55,7 @@ int WinMain(int argc, char* argv[]) {
     texture2 = loadImage(renderer, "assets/chrono.bmp");
 
     // Load tileset texture:
-    SDL_Texture* tileset = loadImage(renderer, "assets/path.bmp");
+    SDL_Texture* tileset = loadImage(renderer, "assets/tileset_01.bmp");
 
     // Create Tile Map:
     TileMap* path = CreateTileMap(50, 50, tileset);
@@ -58,10 +66,20 @@ int WinMain(int argc, char* argv[]) {
     //SetTile(path, 2, 0, 2);
     //SetTile(path, 3, 0, 3);
 
+    // Seed the random number generator
+    srand(time(NULL));
+
+    // Generate a random number between 0 and RAND_MAX
+    //int randomNumber = rand();
+    int min = 0;
+    int max = 3;
+
 
     for(int i = 0; i <= 20; i++){
         for(int j = 0; j <= 9; j++){
-            SetTile(path, i, j, 14);
+            int randomNumber = rand() % (max - min + 1) + min;
+            int tile = randomNumber;
+            SetTile(path, i, j, tile);
         }
     }
 
@@ -124,7 +142,9 @@ int WinMain(int argc, char* argv[]) {
         drawRectangle(renderer, 255, 0, 0, 255, 5, 5, 15, 150);
         drawRectangle(renderer, 255, 0, 0, 255, winWidth - 155, 5, 15, 150);
 
-
+        // Render Text:
+        SDL_Color white = {255, 255, 255, 255};  // White color with full alpha
+        renderText(renderer, "HP: 100%", 7, 7, white);
 
 
         // Present the rendered frame
@@ -142,6 +162,7 @@ int WinMain(int argc, char* argv[]) {
     cleanupGamepad();
     cleanupAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO); // Quit Audio Subsystem
+    shutdownTextSystem(); // Shutdown Text System
     SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER); // Quit Game Controller Subsystem
     DestroyTileMap(path); // Cleanup/Destroy tilemap
 
